@@ -3,6 +3,7 @@ package org.shadow.mall.shadowmallsecurityoauth2server.configuration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.User;
@@ -13,30 +14,34 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
 @Configuration
 @EnableWebSecurity
-public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
-	
-	@Bean
-	public PasswordEncoder passwordEncoder() {
-		return PasswordEncoderFactories.createDelegatingPasswordEncoder();
-	}
-	
-	@Bean
-    @Override
-    protected UserDetailsService userDetailsService() {
+public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+
+    @Bean
+    protected UserDetailsService userDetailsService(){
         InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
-        manager.createUser(User.withUsername("user")
-                .password(passwordEncoder().encode("123456"))
-                .authorities("ROLE_USER").build());
-        manager.createUser(User.withUsername("admin")
-                .password(passwordEncoder().encode("admin"))
-                .authorities("ROLE_ADMIN").build());
+        manager.createUser(User.withUsername("user1").password(passwordEncoder().encode("123456")).authorities("USER").build());
+        manager.createUser(User.withUsername("user2").password(passwordEncoder().encode("123456")).authorities("USER").build());
         return manager;
     }
-	
-	@Override
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http.requestMatchers().anyRequest()
+                .and()
+                .authorizeRequests()
+                .antMatchers("/oauth/*").permitAll()
+                .and().csrf().disable();
+    }
+
     @Bean
+    @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 
 }
