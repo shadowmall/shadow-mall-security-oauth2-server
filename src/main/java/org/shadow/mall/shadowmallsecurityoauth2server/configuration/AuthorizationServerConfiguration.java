@@ -22,7 +22,6 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
 
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-        //配置两个客户端,一个用于password认证一个用于client认证
         clients.inMemory().withClient("client_1")
                 .authorizedGrantTypes("client_credentials", "refresh_token")
                 .scopes("select")
@@ -35,20 +34,22 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
                 .secret("{noop}123456");
     }
 
+    @Override
+    public void configure(AuthorizationServerSecurityConfigurer oauthServer) throws Exception {
+        oauthServer.tokenKeyAccess("permitAll()").checkTokenAccess("permitAll()");
+    }
 
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
-        endpoints
-                .tokenStore(tokenStore())
+        endpoints.tokenStore(tokenStore())
                 .accessTokenConverter(jwtAccessTokenConverter())
                 .authenticationManager(authenticationManager);
-
     }
 
     @Bean
     public JwtAccessTokenConverter jwtAccessTokenConverter() {
         JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
-        converter.setSigningKey("abc");
+        converter.setSigningKey("shadow-oauth");
         return converter;
     }
 
