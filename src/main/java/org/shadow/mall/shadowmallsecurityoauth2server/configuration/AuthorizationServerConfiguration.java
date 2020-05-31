@@ -48,7 +48,7 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
 
     @Bean
     public JwtAccessTokenConverter jwtAccessTokenConverter() {
-        JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
+    	JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
         converter.setSigningKey("shadow-oauth");
         return converter;
     }
