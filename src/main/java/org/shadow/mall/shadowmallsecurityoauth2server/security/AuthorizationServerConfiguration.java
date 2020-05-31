@@ -1,4 +1,4 @@
-package org.shadow.mall.shadowmallsecurityoauth2server.configuration;
+package org.shadow.mall.shadowmallsecurityoauth2server.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

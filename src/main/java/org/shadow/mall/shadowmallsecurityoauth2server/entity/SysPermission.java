@@ -27,12 +27,12 @@ public class SysPermission{
      * 资源ID
      */
 	@Column(name = "resource_no")
-    private int resourceNo;
+    private String resourceNo;
     /*
      * 角色ID
      */
 	@Column(name = "role_no")
-    private int roleNo;
+    private String roleNo;
 	/*
 	 * 权限类型 
 	 */
@@ -59,16 +59,16 @@ public class SysPermission{
 	public void setPermissionId(int permissionId) {
 		this.permissionId = permissionId;
 	}
-	public int getResourceNo() {
+	public String getResourceNo() {
 		return resourceNo;
 	}
-	public void setResourceNo(int resourceNo) {
+	public void setResourceNo(String resourceNo) {
 		this.resourceNo = resourceNo;
 	}
-	public int getRoleNo() {
+	public String getRoleNo() {
 		return roleNo;
 	}
-	public void setRoleNo(int roleNo) {
+	public void setRoleNo(String roleNo) {
 		this.roleNo = roleNo;
 	}
 	public int getPermissionType() {
